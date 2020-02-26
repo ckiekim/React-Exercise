@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 
 class TOC extends Component {
+    shouldComponentUpdate(newProps, newState) {
+        if (this.props.data === newProps.data) {
+            return false;
+        }
+        return true;
+    }
     render() {
         let lists = [];
-        let data = this.props.data;
-        for (let i=0; i<data.length; i++) {
+        for (const data of this.props.data) {
             lists.push(
-                <li key={data[i].id}>
-                    <a 
-                        href={"/content/"+data[i].id}
-                        data-id={data[i].id}
-                        onClick={function(e) {
-                            e.preventDefault();
-                            this.props.onChangePage(e.target.dataset.id);                            
-                        }.bind(this)}
-                    >{data[i].title}</a>
-                </li>);
+                <li key={data.id}>
+                <a 
+                    href={"/content/"+data.id}
+                    data-id={data.id}
+                    onClick={function(e) {
+                        e.preventDefault();
+                        this.props.onChangePage(e.target.dataset.id);                            
+                    }.bind(this)}
+                >{data.title}</a>
+                </li>
+            );
         }
         return (
             <nav>
@@ -25,6 +31,6 @@ class TOC extends Component {
             </nav>
         );
     }
-  }
+}
 
-  export default TOC;
+export default TOC;
